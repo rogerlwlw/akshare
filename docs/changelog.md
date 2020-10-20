@@ -840,7 +840,6 @@ macro_cons_gold_amount  # 全球最大黄金ETF—SPDR Gold Trust持仓报告
 macro_cons_silver_volume  # 全球最大白银ETF--iShares Silver Trust持仓报告
 macro_cons_silver_change  # 全球最大白银ETF--iShares Silver Trust持仓报告
 macro_cons_silver_amount  # 全球最大白银ETF--iShares Silver Trust持仓报告
-macro_cons_opec_near_change  # 欧佩克报告-变动
 macro_cons_opec_month  # 欧佩克报告-月度
 
 0.3.45
@@ -849,7 +848,6 @@ macro_cons_opec_month  # 欧佩克报告-月度
 amac_member_info # 中国证券投资基金业协会-信息公示-会员信息-会员机构综合查询
 # 中国证券投资基金业协会-信息公示-从业人员信息
 amac_person_org_list # 中国证券投资基金业协会-信息公示-从业人员信息-基金从业人员资格注册信息
-amac_person_org_list_ext # 中国证券投资基金业协会-信息公示-从业人员信息-基金从业人员资格注册外部公示信息
 # 中国证券投资基金业协会-信息公示-私募基金管理人公示
 amac_manager_info # 中国证券投资基金业协会-信息公示-私募基金管理人公示-私募基金管理人综合查询
 amac_manager_classify_info # 中国证券投资基金业协会-信息公示-私募基金管理人公示-私募基金管理人分类公示
@@ -863,9 +861,6 @@ amac_fund_account_info # 中国证券投资基金业协会-信息公示-基金�
 amac_fund_abs # 中国证券投资基金业协会-信息公示-基金产品公示-资产支持专项计划
 amac_futures_info # 中国证券投资基金业协会-信息公示-基金产品公示-期货公司集合资管产品公示
 # 中国证券投资基金业协会-信息公示-诚信信息
-amac_manager_xxgs_hmd # 中国证券投资基金业协会-信息公示-诚信信息-违反自律规则黑名单
-amac_manager_xxgs_jlcf # 中国证券投资基金业协会-信息公示-诚信信息-纪律处分
-amac_manager_xxgs_cxdj # 中国证券投资基金业协会-信息公示-诚信信息-撤销管理人登记的名单
 amac_manager_cancelled_info # 中国证券投资基金业协会-信息公示-诚信信息-已注销私募基金管理人名单
 
 0.3.46
@@ -1423,4 +1418,206 @@ amac_manager_cancelled_info # 中国证券投资基金业协会-信息公示-诚
 0.5.75: add: add futures_zh_minute_sina interface
 
 0.5.76: add: add option_sina_finance_minute interface
+
+0.5.77: fix: fix currency_hist interface return data format
+
+0.5.78: add: add hold field in futures_zh_minute_sina interface
+
+0.5.79: add: add stock_report_fund_hold interface
+
+0.5.80: fix: fix PG to futures cons file
+
+0.5.81: add: add stock_zh_index_hist_csindex interface
+
+0.5.82: fix: fix LU to futures cons file
+
+0.5.83: fix: fix qhkc broker_positions_process interface
+
+0.5.84: fix: fix tool_trade_date_hist_sina interface and update calendar.json
+
+0.5.85: add: add index_stock_hist interface
+
+0.5.86: fix: fix code format
+
+0.5.87: fix: fix cot interface
+
+0.5.88: fix: fix stock_em_account interface
+
+0.5.89: add: add macro_china_new_financial_credit interface
+
+0.5.90: add: add stock_sina_lhb interface
+
+0.5.91: fix: fix covid for python3.8
+
+0.5.92: fix: fix futures_daily_bar interface
+
+0.5.93: add: add macro_china_fx_gold interface
+
+0.5.94: add: add stock_zh_index_daily_em, bond_cov_jsl interface
+
+0.5.95: fix: fix get_dce_option_daily interface
+
+0.5.96: add: add stock_em_hsgt_hist interface
+
+0.5.97: fix: fix remove mplfinance package in requirements.txt
+
+0.5.98: add: add stock_hk_eniu_indicator interface
+
+0.5.99: fix: fix stock_zh_ah_daily interface
+
+0.6.1: fix: fix stock_zh_ah_daily interface set default value
+
+0.6.2: fix: fix stock_zh_a_minute interface and add adjust parameter
+
+0.6.3: fix: fix stock_zh_a_minute interface
+
+0.6.4: add: add macro_china interface
+
+0.6.5: add: add macro_china_wbck interface
+
+0.6.6: fix: fix macro_china_wbck interface
+
+0.6.7: add: add index_stock_cons_sina interface
+
+0.6.8: fix: fix option_commodity interface
+
+0.6.9: fix: fix stock_em_gpzy_pledge_ratio interface
+
+0.6.10: add: add macro_china_hb, macro_china_gksccz, macro_china_bond_public interface
+
+0.6.11: fix: fix python version should be 3.7 later
+
+0.6.12: fix: fix stock_em_gpzy_distribute_statistics_company interface
+
+0.6.13: add: add stock_us_fundamental interface
+
+0.6.14: fix: fix stock_us_fundamental interface
+
+0.6.15: fix: fix macro_china_market_margin_sh interface
+
+0.6.16: fix: fix stock_us_daily time period and adjust for specific stock
+
+0.6.17: fix: fix stock_js_weibo_report interface
+
+0.6.18: fix: fix get_shfe_option_daily interface column name
+
+0.6.19: fix: fix stock_hk_daily interface to process non-dividend stock
+
+0.6.20: fix: fix covid_baidu interface
+
+0.6.21: fix: fix futures_hf_spot interface
+
+0.6.22: fix: fix stock_zh_index_daily_tx interface
+
+0.6.23: fix: fix currency_hist interface
+
+0.6.24: fix: fix stock_zh_kcb_spot interface
+
+0.6.25: add: add stock_register_kcb interface
+
+0.6.26: add: add stock_em_sy_list interface
+
+0.6.27: fix: fix stock_sector_detail interface
+
+0.6.28: add: add stock_register_cyb interface
+
+0.6.29: fix: fix stock_zh_a_daily interface
+
+0.6.30: add: add energy interface
+
+0.6.31: fix: fix energy interface
+
+0.6.32: fix: fix docs interface
+
+0.6.33: fix: fix get_roll_yield_bar interface
+
+0.6.34: fix: fix currency_investing and futures_inventory_em interface and add index_stock_cons_csindex interface
+
+0.6.35: fix: fix get_futures_daily interface
+
+0.6.36: fix: fix stock_info_a_code_name interface
+
+0.6.37: fix: fix stock_sector_detail interface
+
+0.6.38: fix: fix get_futures_daily interface
+
+0.6.39: add: add stock_em_xgsglb interface
+
+0.6.40: add: add stock_zh_a_new interface
+
+0.6.41: fix: fix get_ine_daily interface
+
+0.6.42: add: add bond_futures_deliverable_coupons interface
+
+0.6.43: fix: fix bond_futures_deliverable_coupons interface
+
+0.6.44: add: add futures_comex_inventory interface
+
+0.6.45: add: add macro_china_xfzxx interface
+
+0.6.46: add: add macro_china_reserve_requirement_ratio interface
+
+0.6.47: fix: fix franchise_china interface
+
+0.6.48: fix: fix get_rank_sum interface
+
+0.6.49: fix: fix get_dce_rank_table interface
+
+0.6.50: add: add macro_china_hgjck, macro_china_consumer_goods_retail interface
+
+0.6.51: fix: fix macro_china_hgjck interface
+
+0.6.52: add: add macro_china_society_electricity interface
+
+0.6.53: add: add macro_china_society_traffic_volume interface
+
+0.6.54: add: add macro_china_postal_telecommunicational interface
+
+0.6.55: add: add macro_china_international_tourism_fx interface
+
+0.6.56: add: add macro_china_swap_rate interface
+
+0.6.57: fix: fix stock_sina_lhb_detail_daily interface
+
+0.6.58: add: add bond_china_close_return interface
+
+0.6.59: add: add macro_china_passenger_load_factor interface
+
+0.6.60: fix: fix stock_sina_lhb_ggtj interface
+
+0.6.61: fix: fix option_czce_hist interface
+
+0.6.62: fix: fix sunrise_daily interface
+
+0.6.63: fix: fix get_roll_yield_bar interface
+
+0.6.64: add: add macro_china_insurance interface
+
+0.6.65: add: add macro_china_supply_of_money interface
+
+0.6.66: add: add support for python 3.9.0
+
+0.6.67: add: add macro_china_foreign_exchange_gold interface
+
+0.6.68: add: add macro_china_retail_price_index interface
+
+0.6.69: fix: fix box_office_spot interface
+
+0.6.70: fix: fix bond_investing_global interface
+
+0.6.71: fix: fix nh_return_index interface
+
+0.6.72: fix: fix get_receipt interface
+
+0.6.73: add: add news_cctv interface
+
+0.6.74: fix: fix macro and acm interface
+
+0.6.75: add: add movie_boxoffice interface
+
+0.6.76: fix: fix remove execjs dependence
+
+0.6.77: add: add macro_china_real_estate interface
+
+0.6.78: fix: fix movie_boxoffice interface
 ```

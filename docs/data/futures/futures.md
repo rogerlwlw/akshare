@@ -908,11 +908,11 @@ print(futures_xgx_index_df)
 
 ```python
 import akshare as ak
-get_futures_daily_df = ak.get_futures_daily(start_day="20190107", end_day="20190108", market="SHFE", index_bar=True)
+get_futures_daily_df = ak.get_futures_daily(start_date="20190107", end_date="20190108", market="SHFE", index_bar=True)
 print(get_futures_daily_df)
 ```
 
-market 可以添为四个交易所的简称, 即 "dce" 代表大商所; "ine" 代表能源所; "shfe" 代表上期所; "czce" 代表郑商所; "cffex" 代表中金所. 
+market 可以添为四个交易所的简称, 即 "DCE" 代表大商所; "INE" 代表能源所; "SHFE" 代表上期所; "CZCE" 代表郑商所, 时间需要大于20100824; "CFFEX" 代表中金所. 
 index_bar 为 True 时, 在生成的 pandas.DataFrame 中通过持仓量加权合成指数合约, 如 RB99.
 
 ### 期货行情数据
@@ -1162,6 +1162,67 @@ while True:
 3  113365.000  73086  353463074.600 
 ```
 
+#### 内盘-历史行情数据
+
+接口: get_futures_daily
+
+目标地址: 各交易所网站
+
+描述: 提供各交易所各品种的网站的历史行情数据
+
+限量: 单次返回指定时间段指定交易所的所有期货品种历史数据
+
+输入参数
+
+| 名称   | 类型 | 必选 | 描述                                                                              |
+| -------- | ---- | ---- | --- |
+| start_date | str | Y | start_date="20200701" |
+| end_date | str | Y | end_date="20200716" |
+| market | str | Y | market="DCE"; choice of {"CFFEX", "INE", "CZCE", "DCE", "SHFE"} |
+| index_bar | str | Y | index_bar=False; 是否合成指数 |
+
+输出参数
+
+| 名称          | 类型 | 默认显示 | 描述           |
+| --------------- | ----- | -------- | ---------------- |
+| symbol      | str   | Y        | 合约  |
+| date      | str   | Y        | 交易日   |
+| open      | float   | Y        | 开盘价        |
+| high        | float   | Y        |最高价    |
+| low         | float | Y        | 最低价         |
+| close      | str | Y        | 收盘价      |
+| volume      | str | Y        | 成交量      |
+| open_interest      | str | Y        | 持仓量      |
+| turnover      | float   | Y        | 成交额        |
+| settle        | float   | Y        |结算价    |
+| pre_settle         | float | Y        | 前结算价         |
+| variety      | str | Y        | 品种      |
+
+接口示例
+
+```python
+import akshare as ak
+get_futures_daily_df = ak.get_futures_daily(start_date="20200701", end_date="20200716", market="DCE", index_bar=True)
+print(get_futures_daily_df)
+```
+
+数据示例
+
+```
+     symbol      date     open  ...   settle pre_settle variety
+0     A2007  20200701     6160  ...     6122       5643       A
+1     A2009  20200701     4871  ...     4874       4839       A
+2     A2011  20200701     4480  ...     4424       4411       A
+3     A2101  20200701     4402  ...     4385       4395       A
+4     A2103  20200701     4422  ...     4394       4412       A
+     ...       ...      ...  ...      ...        ...     ...
+2749   PG99  20200716  3899.35  ...  3881.69    3879.72      PG
+2750    P99  20200716   5257.2  ...  5269.32    5212.02       P
+2751    L99  20200716  7213.86  ...  7156.44    7220.27       L
+2752    M99  20200716  2858.98  ...  2862.43    2855.63       M
+2753   JM99  20200716  1193.58  ...  1195.49    1197.92      JM
+```
+
 #### 外盘-实时行情数据
 
 接口: futures_hq_spot
@@ -1205,25 +1266,25 @@ print("开始接收实时行情, 每秒刷新一次")
 subscribe_list = ak.hf_subscribe_exchange_symbol()
 while True:
     time.sleep(3)
-    data = ak.futures_hf_spot(subscribe_list=subscribe_list)
-    print(data)
+    futures_hf_spot_df = ak.futures_hf_spot(subscribe_list=subscribe_list)
+    print(futures_hf_spot_df)
 ```
 
 数据示例
 
 ```
-   current_price current_price_rmb        bid  ...      hold        date    symbol
-0         52.545              2475     52.540  ...     0.000  2020-03-26  NYBOT-棉花
-1      11293.500              4292  11290.000  ...     0.000  2020-03-26   LME镍3个月
-2       1662.800              1536   1662.000  ...     0.000  2020-03-26   LME铅3个月
-3      14035.000                89  13975.000  ...     0.000  2020-03-26   LME锡3个月
-4       1846.300              2808   1843.500  ...     0.000  2020-03-26   LME锌3个月
-..           ...               ...        ...  ...       ...         ...       ...
-19        29.206             92836     29.240  ...     0.000  2020-03-26     布伦特原油
-20       1619.86              None    1619.71  ...         0  2020-03-26       伦敦金
-21         14.38              None      14.37  ...         0  2020-03-26       伦敦银
-22       722.180              8506    723.500  ...  9440.000  2020-03-26      伦敦铂金
-23      2150.300               874   2155.000  ...  7048.000  2020-03-26      伦敦钯金
+   current_price current_price_rmb        bid  ...       hold        date    symbol
+0         65.032               394     64.990  ...      0.000  2020-09-03  NYBOT-棉花
+1      15564.500              1403  15560.000  ...      0.000  2020-09-03   LME镍3个月
+2       1945.700               196   1945.000  ...      0.000  2020-09-03   LME铅3个月
+3      18460.500               121  18455.000  ...      0.000  2020-09-03   LME锡3个月
+4       2540.400               515   2539.500  ...      0.000  2020-09-03   LME锌3个月
+..           ...               ...        ...  ...        ...         ...       ...
+20       1946.59              None    1946.59  ...          0  2020-09-03       伦敦金
+21         27.57              None      27.57  ...          0  2020-09-03       伦敦银
+22       916.220              1909    915.800  ...  47369.000  2020-09-03      伦敦铂金
+23      2280.000                20   2276.900  ...   9201.000  2020-09-03      伦敦钯金
+24      2861.900              7690   2863.000  ...  53302.000  2020-09-03       马棕油
 ```
 
 #### 外盘-历史行情数据
@@ -1553,8 +1614,8 @@ print(futures_sgx_daily_df)
 
 ```python
 import akshare as ak
-futures_df = ak.futures_main_sina(symbol="IF0", trade_date="20181220")
-print(futures_df)
+futures_main_sina_df = ak.futures_main_sina(symbol="IF0", trade_date="20181220")
+print(futures_main_sina_df)
 ```
 
 数据示例-连续合约数据接口
@@ -1578,8 +1639,8 @@ print(futures_df)
 
 ```python
 import akshare as ak
-display_main_df = ak.futures_display_main_sina()
-print(display_main_df)
+futures_display_main_sina_df = ak.futures_display_main_sina()
+print(futures_display_main_sina_df)
 ```
 
 数据示例-新浪连续合约品种一览表接口
@@ -1765,8 +1826,8 @@ display_main_df[display_main_df["name"].str.contains("连续")]
 
 ```python
 import akshare as ak
-nh_df = ak.nh_return_index(code="Y")
-print(nh_df)
+nh_return_index_df = ak.nh_return_index()
+print(nh_return_index_df)
 ```
 
 数据示例
@@ -6415,6 +6476,7 @@ print(futures_spot_stock_df)
 | low      | float   | Y        | -  |
 | close      | float   | Y        |  - |
 | volume      | float   | Y        | -  |
+| hold      | float   | Y        | 持仓量  |
 						
 接口示例
 
@@ -6427,16 +6489,65 @@ print(futures_zh_minute_sina_df)
 数据示例
 
 ```
-                     date     open     high      low    close volume
-0     2020-07-14 10:13:00  100.365  100.380  100.365  100.380     54
-1     2020-07-14 10:14:00  100.380  100.410  100.380  100.405    160
-2     2020-07-14 10:15:00  100.405  100.420  100.395  100.420    158
-3     2020-07-14 10:16:00  100.420  100.450  100.420  100.445    208
-4     2020-07-14 10:17:00  100.445  100.445  100.410  100.425    188
-                   ...      ...      ...      ...      ...    ...
-1018  2020-07-17 15:11:00  100.820  100.820  100.810  100.815     42
-1019  2020-07-17 15:12:00  100.820  100.820  100.810  100.810     24
-1020  2020-07-17 15:13:00  100.810  100.815  100.810  100.815     28
-1021  2020-07-17 15:14:00  100.810  100.810  100.805  100.810    111
-1022  2020-07-17 15:15:00  100.810  100.815  100.800  100.805    136
+                     date     open     high      low    close volume   hold
+0     2020-07-15 14:47:00  100.610  100.625  100.610  100.610     63  45082
+1     2020-07-15 14:48:00  100.610  100.615  100.595  100.605     45  45068
+2     2020-07-15 14:49:00  100.605  100.610  100.605  100.605     17  45068
+3     2020-07-15 14:50:00  100.605  100.610  100.600  100.605     49  45049
+4     2020-07-15 14:51:00  100.605  100.615  100.600  100.605     39  45045
+                   ...      ...      ...      ...      ...    ...    ...
+1018  2020-07-21 14:15:00  101.065  101.095  101.065  101.090    163  43930
+1019  2020-07-21 14:16:00  101.095  101.105  101.090  101.105    124  43929
+1020  2020-07-21 14:17:00  101.105  101.105  101.090  101.095     75  43931
+1021  2020-07-21 14:18:00  101.095  101.095  101.080  101.080     30  43938
+1022  2020-07-21 14:19:00  101.080  101.095  101.080  101.085     43  43941
+```
+
+### COMEX库存数据
+
+接口: futures_comex_inventory
+
+目标地址: http://data.eastmoney.com/pmetal/comex/by.html
+
+描述: 获取东方财富网-数据中心-COMEX库存数据
+
+限量: 单次返回指定 symbol 的所有历史数据
+
+输入参数
+
+| 名称   | 类型 | 必选 | 描述                                                                              |
+| -------- | ---- | ---- | --- |
+| symbol | str | Y | symbol="黄金"; choice of {"黄金", "白银"} |
+
+输出参数
+
+| 名称          | 类型 | 默认显示 | 描述           |
+| --------------- | ----- | -------- | ---------------- |
+| date      | str   | Y        | 交易日  |
+| value1      | float   | Y        | 注意单位: 盎司  |
+| value2      | float   | Y        |  注意单位: 吨 |
+						
+接口示例
+
+```python
+import akshare as ak
+futures_comex_inventory_df = ak.futures_comex_inventory(symbol="黄金")
+print(futures_comex_inventory_df)
+```
+
+数据示例
+
+```
+           date      value1   value2
+0    2020-09-24  36606349.0  1138.59
+1    2020-09-23  36606349.0  1138.59
+2    2020-09-22  36564935.0   1137.3
+3    2020-09-21  36663289.0  1140.36
+4    2020-09-18  36514878.0  1135.74
+         ...         ...      ...
+1231 2015-10-29   6700779.0  208.418
+1232 2015-10-28   6703769.0  208.511
+1233 2015-10-27   6703769.0  208.511
+1234 2015-10-26   6704070.0   208.52
+1235 2015-10-23   6704070.0   208.52
 ```

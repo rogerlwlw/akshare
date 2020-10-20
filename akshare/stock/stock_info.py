@@ -11,17 +11,17 @@ import pandas as pd
 import requests
 
 
-def stock_info_sz_name_code(indicator="A股列表"):
+def stock_info_sz_name_code(indicator="AB股列表"):
     """
     深圳证券交易所-股票列表
     http://www.szse.cn/market/companys/company/index.html
-    :param indicator: choice of {"A股列表", "B股列表", "AB股列表", "上市公司列表", "主板", "中小企业板", "创业板"}
+    :param indicator: choice of {"A股列表", "B股列表", "上市公司列表", "主板", "中小企业板", "创业板"}
     :type indicator: str
     :return: 指定 indicator 的数据
     :rtype: pandas.DataFrame
     """
     url = "http://www.szse.cn/api/report/ShowReport"
-    if indicator in {"A股列表", "B股列表", "AB股列表"}:
+    if indicator in {"A股列表", "B股列表"}:
         indicator_map = {"A股列表": "tab1", "B股列表": "tab2", "AB股列表": "tab3"}
         params = {
              "SHOWTYPE": "xlsx",
@@ -202,17 +202,24 @@ def stock_info_a_code_name():
     stock_sz["A股代码"] = stock_sz["A股代码"].astype(str).str.zfill(6)
     big_df = big_df.append(stock_sz[["A股代码", "A股简称"]], ignore_index=True)
     big_df.columns = ["公司代码", "公司简称"]
+
+    stock_kcb = stock_info_sh_name_code(indicator="科创板")
+    stock_kcb = stock_kcb[["SECURITY_CODE_A", "SECURITY_ABBR_A"]]
+    stock_kcb.columns = ["公司代码", "公司简称"]
+
     big_df = big_df.append(stock_sh, ignore_index=True)
+    big_df = big_df.append(stock_kcb, ignore_index=True)
     big_df.columns = ["code", "name"]
     return big_df
 
 
 if __name__ == '__main__':
-    for item in {"A股列表", "B股列表", "AB股列表", "上市公司列表", "主板", "中小企业板", "创业板"}:
+    for item in ["A股列表", "B股列表", "上市公司列表", "主板", "中小企业板", "创业板"]:
+        print(item)
         stock_info_sz_df = stock_info_sz_name_code(indicator=item)
         print(stock_info_sz_df)
 
-    stock_info_sh_df = stock_info_sh_name_code(indicator="主板A股")
+    stock_info_sh_df = stock_info_sh_name_code(indicator="科创板")
     print(stock_info_sh_df)
 
     stock_info_sh_delist_df = stock_info_sh_delist(indicator="终止上市公司")

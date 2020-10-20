@@ -1,13 +1,14 @@
 # -*- coding:utf-8 -*-
 # /usr/bin/env python
 """
-Date: 2019/10/30 11:28
+Date: 2020/8/27 11:28
 Desc: 新浪财经-港股-实时行情数据和历史行情数据(包含前复权和后复权因子)
+http://stock.finance.sina.com.cn/hkstock/quotes/00700.html
 """
 import requests
 import demjson
 import pandas as pd
-import execjs
+from py_mini_racer import py_mini_racer
 
 from akshare.stock.cons import (hk_js_decode,
                                 hk_sina_stock_dict_payload,
@@ -49,9 +50,10 @@ def stock_hk_spot() -> pd.DataFrame:
     return data_df
 
 
-def stock_hk_daily(symbol: str = "00700", adjust: str = "") -> pd.DataFrame:
+def stock_hk_daily(symbol: str = "02912", adjust: str = "qfq") -> pd.DataFrame:
     """
     新浪财经-港股-个股的历史行情数据
+    https://stock.finance.sina.com.cn/hkstock/quotes/02912.html
     :param symbol: 可以使用 stock_hk_spot 获取
     :type symbol: str
     :param adjust: "": 返回未复权的数据 ; qfq: 返回前复权后的数据; qfq-factor: 返回前复权因子和调整;
@@ -60,12 +62,12 @@ def stock_hk_daily(symbol: str = "00700", adjust: str = "") -> pd.DataFrame:
     :rtype: pandas.DataFrame
     """
     res = requests.get(hk_sina_stock_hist_url.format(symbol))
-    js_code = execjs.compile(hk_js_decode)
+    js_code = py_mini_racer.MiniRacer()
+    js_code.eval(hk_js_decode)
     dict_list = js_code.call(
         'd', res.text.split("=")[1].split(";")[0].replace(
             '"', ""))  # 执行js解密代码
     data_df = pd.DataFrame(dict_list)
-    data_df["date"] = data_df["date"].str.split("T", expand=True).iloc[:, 0]
     data_df.index = pd.to_datetime(data_df["date"])
     del data_df["date"]
     data_df = data_df.astype("float")
@@ -75,8 +77,11 @@ def stock_hk_daily(symbol: str = "00700", adjust: str = "") -> pd.DataFrame:
 
     if adjust == "hfq":
         res = requests.get(hk_sina_stock_hist_hfq_url.format(symbol))
-        hfq_factor_df = pd.DataFrame(
-            eval(res.text.split("=")[1].split("\n")[0])['data'])
+        try:
+            hfq_factor_df = pd.DataFrame(
+                eval(res.text.split("=")[1].split("\n")[0])['data'])
+        except SyntaxError as e:
+            return data_df
         hfq_factor_df.columns = ["date", "hfq_factor", "cash"]
         hfq_factor_df.index = pd.to_datetime(hfq_factor_df.date)
         del hfq_factor_df["date"]
@@ -101,10 +106,14 @@ def stock_hk_daily(symbol: str = "00700", adjust: str = "") -> pd.DataFrame:
         temp_df["low"] = temp_df["low"] * temp_df["hfq_factor"] + temp_df["cash"]
         temp_df = temp_df.apply(lambda x: round(x, 2))
         return temp_df.iloc[:, :-2]
+
     if adjust == "qfq":
         res = requests.get(hk_sina_stock_hist_qfq_url.format(symbol))
-        qfq_factor_df = pd.DataFrame(
-            eval(res.text.split("=")[1].split("\n")[0])['data'])
+        try:
+            qfq_factor_df = pd.DataFrame(
+                eval(res.text.split("=")[1].split("\n")[0])['data'])
+        except SyntaxError as e:
+            return data_df
         qfq_factor_df.columns = ["date", "qfq_factor"]
         qfq_factor_df.index = pd.to_datetime(qfq_factor_df.date)
         del qfq_factor_df["date"]
@@ -155,5 +164,5 @@ if __name__ == "__main__":
     print(stock_hk_daily_df)
     stock_hk_daily_hfq_factor_df = stock_hk_daily(symbol="00700", adjust="hfq-factor")
     print(stock_hk_daily_hfq_factor_df)
-    # current_data_df = stock_hk_spot()
-    # print(current_data_df)
+    current_data_df = stock_hk_spot()
+    print(current_data_df)

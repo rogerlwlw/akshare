@@ -1,23 +1,23 @@
 # -*- coding:utf-8 -*-
 # /usr/bin/env python
 """
-Date: 2020/4/27 18:47
+Date: 2020/8/27 12:47
 Desc: 新浪财经-美股实时行情数据和历史行情数据
 http://finance.sina.com.cn/stock/usstock/sector.shtml
 """
 import json
 
-import execjs
+from py_mini_racer import py_mini_racer
 import pandas as pd
 import requests
+from bs4 import BeautifulSoup
 from tqdm import tqdm
 
 from akshare.stock.cons import (
     js_hash_text,
-    hk_js_decode,
+    zh_js_decode,
     us_sina_stock_list_url,
     us_sina_stock_dict_payload,
-    us_sina_stock_hist_url,
     us_sina_stock_hist_qfq_url,
 )
 
@@ -30,7 +30,8 @@ def get_us_page_count() -> int:
     """
     page = "1"
     us_js_decode = f"US_CategoryService.getList?page={page}&num=20&sort=&asc=0&market=&id="
-    js_code = execjs.compile(js_hash_text)
+    js_code = py_mini_racer.MiniRacer()
+    js_code.eval(js_hash_text)
     dict_list = js_code.call("d", us_js_decode)  # 执行js解密代码
     us_sina_stock_dict_payload.update({"page": "{}".format(page)})
     res = requests.get(
@@ -58,7 +59,8 @@ def get_us_stock_name() -> pd.DataFrame:
         us_js_decode = "US_CategoryService.getList?page={}&num=20&sort=&asc=0&market=&id=".format(
             page
         )
-        js_code = execjs.compile(js_hash_text)
+        js_code = py_mini_racer.MiniRacer()
+        js_code.eval(js_hash_text)
         dict_list = js_code.call("d", us_js_decode)  # 执行js解密代码
         us_sina_stock_dict_payload.update({"page": "{}".format(page)})
         res = requests.get(
@@ -82,7 +84,8 @@ def stock_us_spot() -> pd.DataFrame:
         us_js_decode = "US_CategoryService.getList?page={}&num=20&sort=&asc=0&market=&id=".format(
             page
         )
-        js_code = execjs.compile(js_hash_text)
+        js_code = py_mini_racer.MiniRacer()
+        js_code.eval(js_hash_text)
         dict_list = js_code.call("d", us_js_decode)  # 执行js解密代码
         us_sina_stock_dict_payload.update({"page": "{}".format(page)})
         res = requests.get(
@@ -103,13 +106,13 @@ def stock_us_daily(symbol: str = "AAPL", adjust: str = "") -> pd.DataFrame:
     :return: 指定 adjust 的数据
     :rtype: pandas.DataFrame
     """
-    res = requests.get(us_sina_stock_hist_url.format(symbol))
-    js_code = execjs.compile(hk_js_decode)
+    res = requests.get(f"https://finance.sina.com.cn/staticdata/us/{symbol}")
+    js_code = py_mini_racer.MiniRacer()
+    js_code.eval(zh_js_decode)
     dict_list = js_code.call(
         "d", res.text.split("=")[1].split(";")[0].replace('"', "")
     )  # 执行js解密代码
     data_df = pd.DataFrame(dict_list)
-    data_df["date"] = data_df["date"].str.split("T", expand=True).iloc[:, 0]
     data_df.index = pd.to_datetime(data_df["date"])
     del data_df["date"]
     data_df = data_df.astype("float")
@@ -129,6 +132,8 @@ def stock_us_daily(symbol: str = "AAPL", adjust: str = "") -> pd.DataFrame:
     new_range = new_range.iloc[:, [1, 2]]
 
     if adjust == "qfq":
+        if len(new_range) == 1:
+            new_range.index.values[0] = pd.to_datetime(str(data_df.index.date[0]))
         temp_df = pd.merge(
             data_df, new_range, left_index=True, right_index=True, how="left"
         )
@@ -150,14 +155,48 @@ def stock_us_daily(symbol: str = "AAPL", adjust: str = "") -> pd.DataFrame:
         return data_df
 
 
+def stock_us_fundamental(stock="GOOGL", symbol="info"):
+    """
+    美股财务指标
+    https://www.macrotrends.net/stocks/charts/AAPL/apple/pe-ratio
+    :return: 指定股票的财务数据
+    :rtype: pandas.DataFrame
+    """
+    url = "https://www.macrotrends.net/stocks/stock-screener"
+    r = requests.get(url)
+    temp_text = r.text[r.text.find("originalData")+15:r.text.find("filterArray")-8]
+    data_json = json.loads(temp_text)
+    temp_df = pd.DataFrame(data_json)
+    if symbol == "info":
+        del temp_df["name_link"]
+        return temp_df
+    else:
+        need_df = temp_df[temp_df["ticker"] == stock]
+        soup = BeautifulSoup(need_df["name_link"].values[0], "lxml")
+        base_url = "https://www.macrotrends.net" + soup.find("a")["href"]
+        if symbol == "PE":
+            url = base_url.rsplit("/", maxsplit=1)[0] + "/pe-ratio"
+            temp_df = pd.read_html(url)[0]
+            temp_df.columns = ["date", "stock_price", "ttm_net_eps", "pe_ratio"]
+            return temp_df
+        elif symbol == "PB":
+            url = base_url.rsplit("/", maxsplit=1)[0] + "/price-book"
+            temp_df = pd.read_html(url)[0]
+            temp_df.columns = ["date", "stock_price", "book_value_per_share", "price_to_book_ratio"]
+            return temp_df
+
+
 if __name__ == "__main__":
-    # stock_us_stock_name_df = get_us_stock_name()
-    # print(stock_us_stock_name_df)
-    # stock_us_spot_df = stock_us_spot()
-    # print(stock_us_spot_df)
+    stock_us_stock_name_df = get_us_stock_name()
+    print(stock_us_stock_name_df)
+    stock_us_spot_df = stock_us_spot()
+    print(stock_us_spot_df)
     stock_us_daily_df = stock_us_daily(symbol="AAPL", adjust="")
     print(stock_us_daily_df)
     stock_us_daily_qfq_df = stock_us_daily(symbol="AAPL", adjust="qfq")
     print(stock_us_daily_qfq_df)
     stock_us_daily_qfq_factor_df = stock_us_daily(symbol="AAPL", adjust="qfq-factor")
     print(stock_us_daily_qfq_factor_df)
+
+    stock_us_fundamental_df = stock_us_fundamental(stock="GOOGL", symbol="PB")
+    print(stock_us_fundamental_df)

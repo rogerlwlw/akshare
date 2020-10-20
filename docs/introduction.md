@@ -3,15 +3,15 @@
 **风险提示：[AkShare](https://github.com/jindaxiang/akshare) 项目所采集的数据皆来自公开的数据源，不涉及任何个人隐私数据和非公开数据。
 同时本项目提供的数据接口及相关数据仅用于学术研究，任何个人、机构及团体使用本项目的数据接口及相关数据请注意商业风险。**
 
-1. 本文档更新于 **2020-07-18**;
+1. 本文档更新于 **2020-10-20**;
 
 2. 如有库、文档及数据的相关问题, 请在 [AkShare Issues](https://github.com/jindaxiang/akshare/issues) 中提 Issues;
 
-3. 您也可以加入QQ群: 1061759653
+3. 您也可以加入QQ群: 942371170
 
 <div align=center>
     <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=8de5f2b616ba185100c45de811736a7cbf2eb4bc2d6b1efcfd3e5cdf9d7760de">
-        <img border="0" src="https://jfds-1252952517.cos.ap-chengdu.myqcloud.com/akshare/qq/akshare_md_fold_2_1588856077932.png" alt="AkShare-官方" title="AkShare-官方" align="center">
+        <img border="0" src="https://jfds-1252952517.cos.ap-chengdu.myqcloud.com/akshare/qq/akshare_qq_3.jpg" alt="AkShare-官方" title="AkShare-官方" align="center">
     </a>
 </div>
 4. 欢迎关注 数据科学实战 微信公众号:
@@ -214,7 +214,7 @@
 
 ## [AkShare](https://github.com/jindaxiang/akshare) 的初衷
 
-[AkShare](https://github.com/jindaxiang/akshare) 主要目的是服务于财经研究, 解决在财经研究中数据获取困难的问题. 
+[AkShare](https://github.com/jindaxiang/akshare) 主要是用于财经研究, 解决在财经研究中数据获取困难的问题. 
 
 ![私募基金曲线](https://jfds-1252952517.cos.ap-chengdu.myqcloud.com/akshare/readme/index/stock_futures_index.png)
 

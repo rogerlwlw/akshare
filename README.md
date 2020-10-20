@@ -13,16 +13,14 @@
 [![](https://img.shields.io/github/issues/jindaxiang/akshare)](https://github.com/jindaxiang/akshare)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-# ![](https://github.com/jindaxiang/akshare/blob/master/example/images/akshare_home.png)
-
 ## Overview
 
-[AkShare](https://github.com/jindaxiang/akshare) support Python 3.6+, aims to make fetch financial data as convenient as possible.
+[AkShare](https://github.com/jindaxiang/akshare) support Python 3.7+, aims to make fetch financial data as convenient as possible.
 
 **Write less, get more!**
 
 - Documentation: [中文文档](https://akshare.readthedocs.io/zh_CN/latest/)
-- Documentation: [English Forthcoming](https://akshare.readthedocs.io/zh_CN/latest/)
+- Documentation: [中文文档-国内加速访问](https://akshare-4gize6tod19f2d2e-1252952517.tcloudbaseapp.com/index.html)
 
 # ![](https://github.com/jindaxiang/akshare/blob/master/example/images/AkShare.svg)
 
@@ -39,6 +37,10 @@ pip install akshare --upgrade
 ```cmd
 pip install akshare -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com  --upgrade
 ```
+
+### PR
+
+Please check [documentation](https://www.akshare.xyz/zh_CN/latest/contributor.html) if you want to contribute to AkShare
 
 ### Docker
 
@@ -98,7 +100,7 @@ Code
 
 ```python
 import akshare as ak
-import mplfinance as mpf
+import mplfinance as mpf  # Please install mplfinance
 
 stock_us_daily_df = ak.stock_us_daily(symbol="AAPL", adjust="qfq")
 stock_us_daily_df = stock_us_daily_df[["open", "high", "low", "close", "volume"]]
@@ -120,11 +122,11 @@ Pay attention to **数据科学实战** WeChat Official Accounts to get the [AkS
     <img src="https://github.com/jindaxiang/akshare/blob/master/example/images/ds.png">
 </div>
 
-Application to add **AkShare-官方** QQ group and talk about [AkShare](https://github.com/jindaxiang/akshare) issues, QQ group number: 1061759653
+Application to add **AkShare-官方** QQ group and talk about [AkShare](https://github.com/jindaxiang/akshare) issues, QQ group number: 942371170
 
 <div align=center>
     <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=8de5f2b616ba185100c45de811736a7cbf2eb4bc2d6b1efcfd3e5cdf9d7760de">
-        <img border="0" src="https://jfds-1252952517.cos.ap-chengdu.myqcloud.com/akshare/qq/akshare_md_fold_2_1588856077932.png" alt="AkShare-官方" title="AkShare-官方" align="center">
+        <img border="0" src="https://jfds-1252952517.cos.ap-chengdu.myqcloud.com/akshare/qq/akshare_qq_3.jpg" alt="AkShare-官方" title="AkShare-官方" align="center">
     </a>
 </div>
 
@@ -311,4 +313,4 @@ Thanks for the data provided by [中国期货市场监控中心](http://index.cf
 
 Thanks for the data provided by [宽客在线](https://www.quantinfo.com/Argus/);
 
-Thanks for the tutorial provided by [微信公众号: Python大咖谈](https://upload-images.jianshu.io/upload_images/3240514-61004f2c71be4a0b.png).
+Thanks for the tutorials provided by [微信公众号: Python大咖谈](https://upload-images.jianshu.io/upload_images/3240514-61004f2c71be4a0b.png).

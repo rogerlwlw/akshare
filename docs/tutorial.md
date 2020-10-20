@@ -98,6 +98,7 @@
  "stock_us_name"  # 获得美股的所有股票代码
  "stock_us_spot"  # 获取美股行情报价
  "stock_us_daily"  # 获取美股的历史数据(包括前复权因子)
+ "stock_us_fundamental"  # 获取美股的基本面数据
  # A+H股实时行情数据和历史行情数据
  "stock_zh_ah_spot"  # 获取 A+H 股实时行情数据(延迟15分钟)
  "stock_zh_ah_daily"  # 获取 A+H 股历史行情数据(日频)
@@ -118,6 +119,8 @@
  "ff_crr"  # FF当前因子
  # 指数实时行情和历史行情
  "stock_zh_index_daily"  # 股票指数历史行情数据
+ "stock_zh_index_daily_tx"  # 股票指数历史行情数据-腾讯
+ "stock_zh_index_daily_em"  # 股票指数历史行情数据-东方财富
  "stock_zh_index_spot"  # 股票指数实时行情数据
  # 股票分笔数据
  "stock_zh_a_tick_tx"  # A 股票分笔行情数据(近2年)-腾讯
@@ -163,7 +166,6 @@
  # 中国证券投资基金业协会-信息公示
  "amac_member_info" # 中国证券投资基金业协会-信息公示-会员信息-会员机构综合查询
  "amac_person_org_list" # 中国证券投资基金业协会-信息公示-从业人员信息-基金从业人员资格注册信息
- "amac_person_org_list_ext" # 中国证券投资基金业协会-信息公示-从业人员信息-基金从业人员资格注册外部公示信息
  "amac_manager_info" # 中国证券投资基金业协会-信息公示-私募基金管理人公示-私募基金管理人综合查询
  "amac_manager_classify_info" # 中国证券投资基金业协会-信息公示-私募基金管理人公示-私募基金管理人分类公示
  "amac_member_sub_info" # 中国证券投资基金业协会-信息公示-私募基金管理人公示-证券公司私募基金子公司管理人信息公示
@@ -174,9 +176,6 @@
  "amac_fund_account_info" # 中国证券投资基金业协会-信息公示-基金产品公示-基金公司及子公司集合资管产品公示
  "amac_fund_abs" # 中国证券投资基金业协会-信息公示-基金产品公示-资产支持专项计划
  "amac_futures_info" # 中国证券投资基金业协会-信息公示-基金产品公示-期货公司集合资管产品公示
- "amac_manager_xxgs_hmd" # 中国证券投资基金业协会-信息公示-诚信信息-违反自律规则黑名单
- "amac_manager_xxgs_jlcf" # 中国证券投资基金业协会-信息公示-诚信信息-纪律处分
- "amac_manager_xxgs_cxdj" # 中国证券投资基金业协会-信息公示-诚信信息-撤销管理人登记的名单
  "amac_manager_cancelled_info" # 中国证券投资基金业协会-信息公示-诚信信息-已注销私募基金管理人名单
  # 全国银行间同业拆借中心-市场数据-市场行情-外汇市场行情
  "fx_spot_quote"  # 市场行情-外汇市场行情-人民币外汇即期报价
@@ -184,8 +183,6 @@
  "fx_pair_quote"  # 市场行情-债券市场行情-外币对即期报价
  # 能源-碳排放权
  "energy_carbon"  # 北京市碳排放权电子交易平台-北京市碳排放权公开交易行情
- # 电影-实时票房
- "box_office_spot"  # 获取上映影片实时票房数据
  # 生活成本
  "cost_living"  # 获取世界各大城市生活成本数据
  # 商品现货价格指数
@@ -243,6 +240,8 @@
  # 股票指数-成份股
  "index_stock_cons"  # 股票指数-成份股-最新成份股获取
  "index_stock_info"  # 股票指数-成份股-所有可以获取的指数表
+ "index_stock_info_sina"  # 股票指数-成份股-所有可以获取的指数表-新浪新接口
+ "index_stock_hist"  # 股票指数-历史成份股
  # 义乌小商品指数
  "index_yw"  # 获取义乌小商品指数
  # 交易法门-工具-期限分析
@@ -304,10 +303,23 @@
  "macro_china_ctci_detail"  # 发改委-中国电煤价格指数-各价区电煤价格指数
  "macro_china_ctci_detail_hist"  # 发改委-中国电煤价格指数-历史电煤价格指数
  "macro_china_lpr"  # 中国-利率-贷款报价利率
- "macro_china_money_supply"  # 中国-货币-货币供应量
  "macro_china_new_house_price"  # 中国-新房价指数
  "macro_china_enterprise_boom_index"  # 中国-企业景气及企业家信心指数
  "macro_china_national_tax_receipts"  # 中国-全国税收收入
+ "macro_china_new_financial_credit"  # 中国-新增信贷数据
+ "macro_china_fx_gold"  # 中国-外汇和黄金储备
+ "macro_china_cpi"  # 中国-居民消费价格指数
+ "macro_china_gdp"  # 中国-国内生产总值
+ "macro_china_ppi"  # 中国-工业品出厂价格指数
+ "macro_china_pmi"  # 中国-采购经理人指数
+ "macro_china_gdzctz"  # 中国-城镇固定资产投资
+ "macro_china_hgjck"  # 中国-海关进出口增减情况一览表
+ "macro_china_czsr"  # 中国-财政收入
+ "macro_china_whxd"  # 中国-外汇贷款数据
+ "macro_china_wbck"  # 中国-本外币存款
+ "macro_china_hb"  # 中国-货币净投放与净回笼
+ "macro_china_gksccz"  # 中国-央行公开市场操作
+ "macro_china_bond_public"  # 中国-债券发行
  # 美国
  "macro_usa_gdp_monthly"  # 金十数据中心-经济指标-美国-经济状况-美国GDP
  "macro_usa_cpi_monthly"  # 金十数据中心-经济指标-美国-物价水平-美国CPI月率报告
@@ -353,7 +365,6 @@
  "macro_cons_silver_volume"  # 全球最大白银ETF--iShares Silver Trust持仓报告
  "macro_cons_silver_change"  # 全球最大白银ETF--iShares Silver Trust持仓报告
  "macro_cons_silver_amount"  # 全球最大白银ETF--iShares Silver Trust持仓报告
- "macro_cons_opec_near_change"  # 欧佩克报告-变动
  "macro_cons_opec_month"  # 欧佩克报告-月度
  # 伦敦金属交易所(LME)
  "macro_euro_lme_holding"  # 伦敦金属交易所(LME)-持仓报告
@@ -394,6 +405,7 @@
  "bond_zh_hs_cov_spot"  # 债券-沪深可转债-实时行情数据
  "bond_zh_cov"  # 债券-可转债数据一览表
  "bond_cov_comparison"  # 债券-可转债数据比价
+ "bond_cov_jsl"  # 可转债转股价变动
  # 中国-商业特许经营数据
  "franchise_china"  # 中国-商业特许经营数据
  # 慈善中国
@@ -459,6 +471,9 @@
  "stock_em_hsgt_south_cash"  # 沪深港通南向-资金余额
  "stock_em_hsgt_south_acc_flow_in"  # 沪深港通南向-累计净流入
  "stock_em_hsgt_hold_stock"  # 沪深港通持股-个股排行
+ "stock_em_hsgt_stock_statistics"  # 沪深港通持股-每日个股统计
+ "stock_em_hsgt_institution_statistics"  # 沪深港通持股-每日机构统计
+ "stock_em_hsgt_hist"  # 沪深港通历史数据
  # 两市停复牌
  "stock_em_tfp"  # 两市停复牌数据
  # 恐慌指数
@@ -474,6 +489,7 @@
  "watch_argus"  # 阿尔戈斯全网监控
  # 打新收益率
  "stock_em_dxsyl"  # 打新收益率
+ "stock_em_xgsglb"  # 新股申购与中签查询
  # 年报季报
  "stock_em_yjyg"  # 上市公司业绩预告
  "stock_em_yysj"  # 上市公司预约披露时间
@@ -530,6 +546,7 @@
  "stock_a_pb"  # A 股市净率
  "stock_a_pe"  # A 股市盈率
  "stock_a_lg_indicator"  # A 股个股市盈率、市净率和股息率指标
+ "stock_hk_eniu_indicator"  # 港股股个股市盈率、市净率和股息率指标
  "stock_a_high_low_statistics"  # 创新高和新低的股票数量
  "stock_a_below_net_asset_statistics"  # 破净股统计
  # 交易日历
@@ -539,6 +556,65 @@
  "fund_etf_hist_sina"  # 基金行情
  # 股票财务报告-预约披露
  "stock_report_disclosure"  # 股票财务报告-预约披露时间
+ # 基金持股
+ "stock_report_fund_hold"  # 个股-基金持股
+ # 中证指数
+ "stock_zh_index_hist_csindex"  # 中证指数
+ # A股龙虎榜
+ "stock_sina_lhb_detail_daily"  # 龙虎榜-每日详情
+ "stock_sina_lhb_ggtj"  # 龙虎榜-个股上榜统计
+ "stock_sina_lhb_yytj"  # 龙虎榜-营业上榜统计
+ "stock_sina_lhb_jgzz"  # 龙虎榜-机构席位追踪
+ "stock_sina_lhb_jgmx"  # 龙虎榜-机构席位成交明细
+ # 注册制审核
+ "stock_register_kcb"  # 注册制审核-科创板
+ "stock_register_cyb"  # 注册制审核-创业板
+ # 次新股
+ "stock_zh_a_new"  # 股票数据-次新股
+ # 国债期货可交割券相关指标
+ "bond_futures_deliverable_coupons"  # 国债期货可交割券相关指标
+ # COMEX库存数据
+ "futures_comex_inventory"  # COMEX库存数据
+ # 消费者信心指数
+ "macro_china_xfzxx"  # 消费者信心指数
+ # 存款准备金率
+ "macro_china_reserve_requirement_ratio"  # 存款准备金率
+ # 社会消费品零售总额
+ "macro_china_consumer_goods_retail"  # 社会消费品零售总额
+ # 海关进出口增减情况
+ "macro_china_hgjck"  # 海关进出口增减情况
+ # 全社会用电分类情况表
+ "macro_china_society_electricity"  # 全社会用电分类情况表
+ # 全社会客货运输量
+ "macro_china_society_traffic_volume"  # 全社会客货运输量
+ # 邮电业务基本情况
+ "macro_china_postal_telecommunicational"  # 邮电业务基本情况
+ # 国际旅游外汇收入构成
+ "macro_china_international_tourism_fx"  # 国际旅游外汇收入构成
+ # 民航客座率及载运率
+ "macro_china_passenger_load_factor"  # 民航客座率及载运率
+ # 航贸运价指数
+ "macro_china_freight_index"  # 航贸运价指数
+ # 央行货币当局资产负债
+ "macro_china_central_bank_balance"  # 央行货币当局资产负债
+ # FR007利率互换曲线历史数据
+ "macro_china_swap_rate"  # FR007利率互换曲线历史数据
+ # 收盘收益率曲线历史数据
+ "bond_china_close_return"  # 收盘收益率曲线历史数据
+ # 保险业经营情况
+ "macro_china_insurance"  # 保险业经营情况
+ # 货币供应量
+ "macro_china_supply_of_money"  # 货币供应量
+ # 央行黄金和外汇储备
+ "macro_china_foreign_exchange_gold"  # 央行黄金和外汇储备
+ # 商品零售价格指数
+ "macro_china_retail_price_index"  # 商品零售价格指数
+ # 新闻联播文字稿
+ "news_cctv"  # 新闻联播文字稿
+ # 电影票房
+ "movie_boxoffice"  # 电影票房
+ # 国房景气指数
+ "macro_china_real_estate"  # 国房景气指数
 ```
 
 ## 案例演示
