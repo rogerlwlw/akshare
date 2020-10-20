@@ -33,3 +33,5 @@ colors
 #docs/source/_templates/
 
 /.spyproject/
+
+*.db
