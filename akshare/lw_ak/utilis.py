@@ -11,6 +11,7 @@ import numpy as np
 import requests
 import random
 import re
+import demjson
 
 from functools import reduce
 from loguru import logger
@@ -139,7 +140,7 @@ def _prefix_index_code(index_code):
     else:
         return ''.join(['sh', index_code])    
     
-def _iterate_for_code(code_set_func, 
+def iterate_for_code(code_set_func, 
                       func, 
                       test_num: int =-1,
                       max_try: int =10, 
@@ -198,7 +199,7 @@ def _iterate_for_code(code_set_func,
                                                        errors='ignore')
                         )
                     logger.info('{} {} downloaded..\n'.format(func.__name__, code))
-            except (requests.Timeout, requests.RequestException):
+            except (requests.Timeout, requests.RequestException, demjson.JSONError):
                 failed_stock_code.add(code)
                 logger.exception(
                     'Requests exception - {} when calling {}'.format(
@@ -209,8 +210,7 @@ def _iterate_for_code(code_set_func,
                     'unexpected Exception - for {} when calling {}'.format(
                     code, func.__name__
                 ))
-                raise Exception()
-                
+                                
         code_set = failed_stock_code.copy()
     
     if len(code_set) > 0:

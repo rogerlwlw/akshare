@@ -9,16 +9,17 @@ import akshare as ak
 
 import pandas as pd
 
-from akshare.lw_ak.utilis import _convert_code, _iterate_for_code
+from akshare.lw_ak.utilis import _convert_code, iterate_for_code
 from akshare.lw_ak.codeset import (stock_a_code, index_a_code, em_fund_code,
                                    index_us_code)
 
 
 from functools import wraps
 
-def daily(key):
+def asset_pool(key=None):
     '''
-    
+    dict of (codeset, single security asset daily hist func) pairs
+    to retrieve data from public web resources
 
     Parameters
     ----------
@@ -38,7 +39,7 @@ def daily(key):
         "index_a" : (index_a_code, index_a_daily),
         "em_fund_a" : (em_fund_code, em_fund_daily),
         "index_us" : (index_us_code, index_us_daily),
-        "fin_indi" : (stock_a_code, ak.stock_financial_analysis_indicator)
+        # "fin_indi" : (stock_a_code, ak.stock_financial_analysis_indicator)
          
          }
     
@@ -47,7 +48,9 @@ def daily(key):
     dd['stock_a'] = "China's a stock market daily data"
     
     if key is None:
-        return dd    
+        return dd
+    elif key == -1:
+        return d    
     else:
         return d[key]
 
@@ -80,7 +83,7 @@ def index_us_daily(code, start_date='2000-01-01',
                                            period=period,
                                            end_date=end_date,
                                             **kwargs)
-    index_data.name = 'date'
+    index_data.index.name = 'date'
     index_data.columns = ['close', 'open', 'high', 'low', 'volume']
     return index_data.reset_index()
 
@@ -103,10 +106,10 @@ def em_fund_daily(symbol):
 
 if __name__ == '__main__':
     pass
-    # _iterate_for_code(*daily('index_a'), test_num=1)
-    # _iterate_for_code(*daily('stock_a'), test_num=1)
-    # _iterate_for_code(*daily('em_fund_a'), test_num=1)
-    # _iterate_for_code(*daily('index_us'), test_num=1)
-    _iterate_for_code(*daily('fin_indi'), test_num=1)
+    # iterate_for_code(*asset_pool('index_a'), test_num=1)
+    iterate_for_code(*asset_pool('stock_a'), test_num=1)
+    # iterate_for_code(*asset_pool('em_fund_a'), test_num=1)
+    # iterate_for_code(*asset_pool('index_us'), test_num=1)
+    # iterate_for_code(*asset_pool('fin_indi'), test_num=1)
     
     
